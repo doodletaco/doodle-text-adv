@@ -24,8 +24,16 @@
             String name = scan.nextLine();
             
             // Confirm the player's name and create the player
-            System.out.println("Hello, noble adventurer " + name + ".");        
+            System.out.println("Hello, " + name + ".");        
             player = new Player(name);
+            
+            //Prompt for player's pronouns
+            System.out.println("Are you a boy or a girl?");
+            System.out.print("> ");
+            
+            String pronoun = scan.nextLine();
+            
+            //Check to make sure a valid keyword is used, then set pronouns for game.
             
             // Build the locations in this world
             makeRooms();
@@ -44,10 +52,10 @@
                                         + " As you examine the ground, you can make out the faint trace of a path heading to the South.");        
             room[1] = new Path();
             
-            room[2] = new Location("the busseling port of Nav",
-                                        "There is a market to your east. \n"
-                                        + "You can see faint ruins in the West, and an outpost in the South.");
-          // Connect the rooms
+            room[2] = new Location("the bustling port of Nav",
+                                        "There is a busy market just a short ways off. \n"
+                                        + "An outpost is nearby, and you know that ruins are somewhere westward.");
+            // Connect the rooms
             room[0].connectTo(room[1], "South"); // You can go North from room0 to room1
             room[1].connectTo(room[0], "North"); // You can go South from room1 to room0
             room[1].connectTo(room[0], "Die"); // If you die in room1, you go to room0
