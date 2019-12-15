@@ -14,9 +14,11 @@ public class Location {
     private Location west;
     private Location up;
     private Location down;
+    private Location left;
+    private Location right;
     
     private String[] directions = {"North", "South", "East", "West",
-                                    "Up", "Down"};
+                                    "Up", "Down", "Left", "Right"};
     
     /**
      * Initialize a simple location with a name and description
@@ -49,6 +51,12 @@ public class Location {
                 break;
             case 'D':
                 down = other;
+                break;
+            case 'L':
+                left = other;
+                break;
+            case 'R':
+                right = other;
                 break;
         }
     }
@@ -84,6 +92,10 @@ public class Location {
             case "DOWN":
             case "U":
             case "D":
+            case "LEFT":
+            case "RIGHT":
+            case "L":
+            case "R":
                 Location moveto = connectedLocation(words[0]);
                 if (moveto == null) {
                     System.out.println("You cannot go that way.");

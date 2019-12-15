@@ -1,32 +1,32 @@
 /**
- * A Path is a special location that has a limited number of moves before
+ * A Tavern is a special location that has a limited number of moves before
  * the trees attack.
  *
- * Notice that Path EXTENDS Location, and calls super in its constructor,
- * doCommand, and other Overridden methods. This lets a Path use the 
+ * Notice that Tavern EXTENDS Location, and calls super in its constructor,
+ * doCommand, and other Overridden methods. This lets a Tavern use the 
  * features that Location provides, and add to them.
  * 
- * @author dahlem.brian
+ * @author Thomas French
  */
-public class Path extends Location
+public class Tavern extends Location
 {
     private int numTurns;
-    private boolean rock;
+    private boolean strangeMan;
     private Location respawn;
     
     /**
-     * Constructor for objects of class Path
+     * Constructor for objects of class Tavern
      */
-    public Path()
+    public Tavern()
     {
         // Initialize the location
-        super("a dead end",
-                 "The path you followed seems to have ended.\n"
-                 + " You hear a strange whispering in the trees."); // Set up the Location's parameters 
+        super("the Rhyming Orange Tavern",
+                 "It seems very lively.\n"
+                 + " You wonder if some sort of event is going on."); // Set up the Location's parameters 
         
         // initialise the instance variables for this path
         numTurns = 0;
-        rock = true;
+        strangeMan = true;
     }
     
     /**
@@ -70,20 +70,17 @@ public class Path extends Location
         // If the user wants to pick up or take an object, the object's name
         // is the command
         if (words.length >= 3 
-            && words[0].equals("PICK") && words[1].equals("UP")) {
+            && words[0].equals("TALK") && words[1].equals("TO")) {
            words[0] = words[2]; 
-        }
-        if (words.length >= 2
-            && (words[0].equals("TAKE") || words[0].equals("GET"))) {
-            words[0] = words[1];
         }
         
         switch (words[0]) {
-            // If the user picks up the rock
-            case "ROCK":
-                player.giveItem("ROCK");
-                System.out.println("You have picked up a rock. Good for you.");
-                rock = false;
+            // If the user talks to the strange man
+            case "STRANGEMAN":
+                player.giveItem("STRANGEMAN");
+                System.out.println("You realize that the strange man is from the empire and ask him for a way to stop Salame, he is afraid of you and tells you that the ancient sword Excalibur rests in the dungeon North of Buko.");
+                System.out.println("He also tells you that Salame resides South of Buko.");
+                strangeMan = false;
                 result = "TAKE";
         }
         
@@ -102,22 +99,22 @@ public class Path extends Location
     @Override
     public void turnDone(Player player) {
         
-        // If the player has spent two turns in here, the trees attack!
+        // If the player has spent two turns in here, the man stabs you!
         if (numTurns > 2) {
-            System.out.println("The roar in the trees has become a screech.\n"
-                                + " Suddenly branches swing down towards you.\n"
-                                + " You attempt to dodge them but are scooped up and carried away.\n"
+            System.out.println("The strange man gets up.\n"
+                                + " He charges you with a knife in his hand.\n"
+                                + " He keeps stabbing you in the chest until you can't breathe.\n"
                                 + " Everything goes dark.");
 
             player.setLocation(respawn);
         }
         else if (numTurns > 1) {
-            System.out.println("The whispering in the trees has grown into a roar.\n" 
-                                + " You get the feeling that the trees are angry with you.");
+            System.out.println("The strange man looks you in the eye.\n" 
+                                + " You get the feeling that the strange man knows who you are.");
             
         }
         else if (numTurns > 0) {
-            System.out.println("The whispering in the trees grows louder.");
+            System.out.println("The strange man looks at you.");
         }      
         
         numTurns = numTurns + 1;        
@@ -130,9 +127,9 @@ public class Path extends Location
     public void look() {
         super.look(); // Use the location's look
         
-        // If the player hasn't picked up the rock, report its presence
-        if (rock) {
-            System.out.println("There is a rock lying in front of you.");
+        // If the player hasn't talked to the strange man, report its presence
+        if (strangeMan) {
+            System.out.println("There is a strange man sitting at the bar dressed in all black.");
         }
     }
     
@@ -145,8 +142,11 @@ public class Path extends Location
         super.help();
         
         // Add any other room specific commands here
-        if (rock) { // only display if there is an item to take
-            System.out.println("TAKE [item]");
+        if (strangeMan) { // only display if there is an item to take
+            System.out.println("TALK [person]");
+            if (strangeMan) {
+                System.out.println("    StrangeMan");
+            }
         }
     }
 }
